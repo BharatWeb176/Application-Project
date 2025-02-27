@@ -1,0 +1,54 @@
+<div class="dropdown mx-5 mt-5">
+  <button
+    class="btn dropdown-toggle w-100"
+    type="button"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    Filter
+  </button>
+  <ul class="dropdown-menu w-100">
+    <!-- Animal Type Filter -->
+    <h6 class="m-1">Animals</h6>
+    <div *ngFor="let type of animals" class="field-checkbox my-1">
+      <li class="mx-3">
+        <p-checkbox
+          (onChange)="onFilterSelection()"
+          name="group2"
+          [value]="type"
+          [(ngModel)]="activeFilters.animalType"
+        ></p-checkbox>
+        <label class="ms-2">{{ type }}</label>
+      </li>
+    </div>
+    <!-- Categories Filter -->
+    <h6 class="m-1">Categories</h6>
+    <div
+      *ngFor="let category of categories; let i = index"
+      class="field-checkbox my-1"
+    >
+      <li class="mx-3">
+        <p-checkbox
+          (onChange)="onFilterSelection()"
+          name="group2"
+          [value]="category"
+          [(ngModel)]="activeFilters.category"
+        ></p-checkbox>
+        <label class="ms-2">{{ category }}</label>
+      </li>
+    </div>
+    <!-- Brands Filter -->
+    <h6 class="m-1">Brands</h6>
+    <div *ngFor="let brand of brands" class="field-checkbox my-1">
+      <li class="mx-3">
+        <p-checkbox
+          (onChange)="onFilterSelection()"
+          name="group2"
+          [value]="brand"
+          [(ngModel)]="activeFilters.brand"
+        ></p-checkbox>
+        <label class="ms-2">{{ brand }}</label>
+      </li>
+    </div>
+  </ul>
+</div>
