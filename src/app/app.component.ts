@@ -26,7 +26,7 @@ import { Subscription } from 'rxjs';
 })
 export class AppComponent {
   private _subscription: Array<Subscription> = []; //Array of active subscriptions
-  title = 'Happy Paws'; //App title
+  title = 'PetCare'; //App title
   showNavbarFooter: boolean = false; //Flag for showing navbar and footer
 
   constructor(
