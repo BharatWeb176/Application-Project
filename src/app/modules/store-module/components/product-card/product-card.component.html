@@ -35,7 +35,7 @@
   ></p-rating>
   <div class="d-flex justify-content-between mb-2">
     <!-- Product price -->
-    <p class="card__price fw-bold my-2 fs-5">{{ product.price }} EGP</p>
+    <p class="card__price fw-bold my-2 fs-5">{{ product.price }} $</p>
     <!-- Product stock status -->
     <ng-template [ngIf]="product.quantity! > 0" [ngIfElse]="outofstock">
       <p class="card__actions__instock">In Stock</p>
