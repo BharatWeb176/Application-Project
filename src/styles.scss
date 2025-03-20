@@ -1,11 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=Winky+Sans:ital,wght@0,300..900;1,300..900&display=swap");
 :root {
-  --background-color: rgb(254, 253, 253);
-  --auth-background: rgb(251, 248, 248);
+  --background-color: rgb(227, 244, 255);
+  --auth-background: rgb(214, 232, 255);
   --pink-color: #68b1ff;
-  --grey-color: #999;
-  --dark-grey-color: rgb(103, 102, 102);
-  --blue-color: #007bff;
+  --grey-color: #353535;
+  --dark-grey-color: rgb(27, 27, 27);
+  --blue-color: #72b6ff;
 }
 
 body,
@@ -13,10 +14,10 @@ app-root {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  font-family: "Kaisei Opti", serif;
+  font-family: "Winky Sans", sans-serif;
 }
 .p-component {
-  font-family: "Kaisei Opti", serif;
+  font-family: "Winky Sans", sans-serif;
 }
 
 app-root,

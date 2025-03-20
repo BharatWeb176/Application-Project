@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
-import { CartItem, ProductItem } from 'src/app/interfaces/store';
+import { CartItem, ProductItem, Review } from 'src/app/interfaces/store';
 import { DatabaseService } from 'src/app/services/database.service';
 import {
   addToCart,
   addToWishList,
+  alterReview,
   removeFromWishList,
 } from 'src/app/store/store/store-actions';
 
@@ -16,8 +17,9 @@ import {
   styleUrls: ['./product-details.component.scss'],
 })
 export class ProductDetailsComponent implements OnInit {
-  private _userID: string = ''; // Active user id stored in local storage
-  productItem: ProductItem | null = null; // Product item to be viewed
+  private _userID: string = ''; //Active user id stored in local storage
+  productItem: ProductItem | null = null; //Product item to be viewed
+  newReview = {} as Review; // Review object of current user
 
   constructor(
     private _messageService: MessageService,
@@ -33,8 +35,17 @@ export class ProductDetailsComponent implements OnInit {
     }>
   ) {}
 
+  //Subscribe to store, fetch userid from local storage and loads review object with current user review if found
   ngOnInit(): void {
     this._userID = localStorage.getItem('userID')!;
+    if (this._userID) {
+      this.newReview = {
+        rate: 0,
+        userID: this._userID,
+        userName: localStorage.getItem('userName')!,
+        comment: '',
+      };
+    }
     this._store.select('store').subscribe((response) => {
       let temp = response.products.find(
         (element) => element.id === this._activeRoute.snapshot.params['id']
@@ -49,11 +60,17 @@ export class ProductDetailsComponent implements OnInit {
         ) {
           this.productItem!.wishList = true;
         }
+        let currentReview = this.productItem!.reviews.find(
+          (review) => this._userID === review.userID
+        );
+        if (currentReview) {
+          this.newReview = JSON.parse(JSON.stringify(currentReview));
+        }
       }
     });
   }
-
-  // Function to toggle wishlist
+  //Function called when wishlist button is clicked in child to modify store
+  //and update database
   alterWishlist(): void {
     if (this._userID) {
       if (this.productItem!.wishList) {
@@ -92,8 +109,8 @@ export class ProductDetailsComponent implements OnInit {
       this._router.navigate(['/auth/login']);
     }
   }
-
-  // Function to add product to cart
+  //Function called when add to cart button is clicked to add
+  //product item to cart in store and update database
   addToCart(): void {
     if (this._userID) {
       const cartItem: CartItem = { ...this.productItem!, count: 1 };
@@ -117,8 +134,41 @@ export class ProductDetailsComponent implements OnInit {
       this._router.navigate(['/auth/login']);
     }
   }
-
-  // Success toast message
+  //Function called when review submit is clicked to add
+  //new review in store and update database
+  submitNewReview(): void {
+    if (this._userID) {
+      const index = this.productItem!.reviews.findIndex(
+        (review) => review.userID === this._userID
+      );
+      if (index === -1) {
+        this.productItem!.reviews = [
+          ...this.productItem!.reviews,
+          this.newReview,
+        ];
+      } else {
+        this.productItem!.reviews[index] = JSON.parse(
+          JSON.stringify(this.newReview)
+        );
+      }
+      this._store.dispatch(
+        alterReview({
+          payload: JSON.parse(JSON.stringify(this.productItem)),
+        })
+      );
+      this._fireStore
+        .addReviewToProductItem(JSON.parse(JSON.stringify(this.productItem)))
+        .then(() => {
+          this.showSuccessToast('Review added');
+        })
+        .catch(() => {
+          this.showErrorToast('Failed to add review');
+        });
+    } else {
+      this._router.navigate(['/auth/login']);
+    }
+  }
+  //Success toast message
   showSuccessToast(message: string): void {
     this._messageService.add({
       key: 'database',
@@ -126,8 +176,7 @@ export class ProductDetailsComponent implements OnInit {
       detail: message,
     });
   }
-
-  // Error toast message
+  //Error toast message
   showErrorToast(message: string): void {
     this._messageService.add({
       key: 'database',

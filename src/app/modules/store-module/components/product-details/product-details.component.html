@@ -75,8 +75,52 @@
         {{ productItem.description }}
       </p>
     </div>
-  </div>
 
+    <!-- Review Section -->
+    <div class="my-5 container pb-4 col-12">
+      <h4>Reviews</h4>
+      <hr />
+      <div
+        class="rate-display mb-3 p-2 border rounded"
+        *ngFor="let review of productItem.reviews"
+      >
+        <p>{{ review.userName }}</p>
+        <p-rating
+          [(ngModel)]="review.rate"
+          [readonly]="true"
+          [cancel]="false"
+        ></p-rating>
+        <p class="my-4">
+          {{ review.comment! }}
+        </p>
+      </div>
+      <div class="user-rate my-5">
+        <div class="d-flex my-3">
+          <span class="me-3">Your Rating:</span>
+          <p-rating [(ngModel)]="newReview.rate" [cancel]="false"></p-rating>
+        </div>
+        <span class="p-float-label my-4">
+          <p>Comment:</p>
+          <textarea
+            [(ngModel)]="newReview.comment"
+            id="float-input"
+            rows="5"
+            cols="35"
+            pInputTextarea
+            class="comment"
+          ></textarea>
+        </span>
+        <button
+          pButton
+          pRipple
+          (click)="submitNewReview()"
+          type="button"
+          label="Submit"
+          class="p-button-raised p-button-secondary"
+        ></button>
+      </div>
+    </div>
+  </div>
   <!-- Toasts -->
   <!-- Success toast -->
   <p-toast key="database"></p-toast>
