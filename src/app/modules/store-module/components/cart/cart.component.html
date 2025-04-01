@@ -1,7 +1,8 @@
 <!-- Heading -->
 <h1 class="text-center mt-4">Shopping Cart</h1>
+
 <ng-template [ngIf]="cartItems.length == 0" [ngIfElse]="elseBlock">
-  <!-- Empty cart Page -->
+  <!-- Empty Cart Page -->
   <h2 class="emptyCart mt-5 text-center p-5 border rounded bg-light">
     <figure class="img-fluid">
       <img src="assets/images/Dog-removebg.png" alt="Dog" />
@@ -16,6 +17,7 @@
     </p-button>
   </h2>
 </ng-template>
+
 <!-- Cart Items -->
 <ng-template #elseBlock>
   <section class="my-5 container border rounded">
@@ -25,11 +27,11 @@
         Empty Cart
       </button>
     </div>
+
     <!-- Cart items table in large screens-->
     <div class="d-none d-lg-block">
       <table class="table">
         <thead>
-          <!-- Table header -->
           <tr>
             <th scope="col" class="fs-5">Image</th>
             <th scope="col" class="fs-5">Name</th>
@@ -39,9 +41,7 @@
           </tr>
         </thead>
         <tbody *ngFor="let item of cartItems">
-          <!-- Table Item -->
           <tr>
-            <!-- Item image -->
             <td class="w-25 align-middle">
               <figure class="m-0">
                 <img
@@ -51,15 +51,12 @@
                 />
               </figure>
             </td>
-            <!-- Title -->
             <td class="align-middle">
               <p class="fs-5 title">{{ item.title }}</p>
             </td>
-            <!-- Price -->
             <td class="align-middle">
               <p class="fs-5">{{ item.price }} $</p>
             </td>
-            <!-- Buttons -->
             <td class="align-middle">
               <button
                 class="fs-5 text-secondary btn btn-light QuantityBtn"
@@ -87,71 +84,65 @@
         </tbody>
       </table>
     </div>
-    <!-- Cart items Cards in medium and small screens-->
-    <div class="p-2 d-flex flex-wrap CardContainer d-lg-none">
-      <div class="col-12 p-2">
-        <p-card
-          styleClass="p-card-shadow  card p-2 my-4"
-          *ngFor="let item of cartItems"
-        >
-          <ng-template pTemplate="header">
-            <div class="d-flex card__detailsContainer">
-              <!-- Item image -->
-              <figure>
-                <img
-                  [alt]="item.title"
-                  class="card__img img-fluid"
-                  [src]="item.images[0]"
-                />
-              </figure>
-              <!-- Title & price -->
-              <div class="mx-3">
-                <p class="card__title fw-md-bold fs-md-6">
-                  {{ item.title }}
-                </p>
-                <p class="card__price fw-bold my-1 fs-6" style="color: #ecada6">
-                  {{ item.price }} EGP
-                </p>
-              </div>
-            </div>
-          </ng-template>
-          <!-- Increment/Decrement & remove buttons -->
-          <ng-template pTemplate="footer">
-            <div class="d-flex justify-content-between card__buttonsContainer">
-              <div>
-                <button
-                  class="btn btn-light removeBtn"
-                  (click)="removeCartItem(item.id)"
-                >
-                  <i class="fa-solid fa-trash-can fs-3"></i>
-                </button>
-              </div>
-              <div>
-                <button
-                  class="fs-5 text-secondary btn btn-light QuantityBtn"
-                  (click)="increaseQty(item)"
-                >
-                  <i class="fa-solid fa-circle-plus fs-4"></i>
-                </button>
-                &nbsp; <span class="fs-5">{{ item.count }}</span> &nbsp;
-                <button
-                  class="fs-5 text-secondary btn btn-light QuantityBtn"
-                  (click)="decreaseQty(item)"
-                >
-                  <i class="fa-solid fa-circle-minus fs-4"></i>
-                </button>
-              </div>
-            </div>
-          </ng-template>
-        </p-card>
-      </div>
-    </div>
+
     <!-- Total price -->
     <h4 class="mt-4 text-end mb-5">Total Price: {{ totalCartPrice }} $</h4>
+
+    <!-- Payment Method Selection -->
+    <div class="text-end my-4">
+      <label for="paymentMethod" class="fs-5 me-2"
+        >Select Payment Method:</label
+      >
+      <select
+        id="paymentMethod"
+        class="form-select w-auto d-inline-block"
+        [(ngModel)]="selectedPaymentMethod"
+      >
+        <option value="credit-card">Credit Card</option>
+        <option value="paypal">PayPal</option>
+        <option value="apple-pay">Apple Pay</option>
+        <option value="google-pay">Google Pay</option>
+        <option value="cash-on-delivery">Cash on Delivery</option>
+      </select>
+    </div>
+
+    <!-- Proceed to Checkout Button -->
+    <div class="text-end">
+      <button class="btn btn-success px-4 py-2" (click)="processPayment()">
+        Proceed to Checkout
+      </button>
+    </div>
   </section>
 </ng-template>
+
 <!-- Toasts -->
-<!-- Success toast -->
 <p-toast key="database"></p-toast>
-<!-- Error toast -->
 <p-toast key="error"></p-toast>
+<p-toast key="paymentSuccess"></p-toast>
+
+<!-- Total price -->
+<h4 class="mt-4 text-end mb-3">Total Price: {{ totalCartPrice }} $</h4>
+
+<!-- Recent Orders Section -->
+<section *ngIf="recentOrders.length > 0" class="recent-orders my-5">
+  <h3 class="text-center mb-4">Orders history</h3>
+  <div
+    *ngFor="let order of recentOrders; let i = index"
+    class="order-card border p-3 mb-3"
+  >
+    <div class="d-flex justify-content-between align-items-center">
+      <h4>Order #{{ i + 1 }}</h4>
+      <button class="btn btn-black" (click)="deleteOrder(i)">
+        <i class="fa-solid fa-remove fs-3"></i>
+      </button>
+    </div>
+    <p><strong>Date:</strong> {{ order.date }}</p>
+    <p><strong>Total:</strong> {{ order.total }} $</p>
+    <h5>Items:</h5>
+    <ul>
+      <li *ngFor="let item of order.items">
+        {{ item.title }} - {{ item.count }} x {{ item.price }} $
+      </li>
+    </ul>
+  </div>
+</section>

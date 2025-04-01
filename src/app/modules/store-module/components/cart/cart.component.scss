@@ -7,7 +7,7 @@ $color-white: #ffffff;
 $color-danger: #dc2626;
 $color-transparent: transparent;
 
-//--------------------------- Empty Cart Page Button------------------------
+//--------------------------- Empty Cart Page Button ------------------------
 :host ::ng-deep .p-button {
   background: $color-secondary;
   border: 1px solid $color-secondary;
@@ -30,9 +30,9 @@ $color-transparent: transparent;
   border-color: none !important;
 }
 
-//--------------------------- Table Style------------------------
+//--------------------------- Table Style ------------------------
 section {
-  //--------------------------- Quantity Button------------------------
+  //--------------------------- Quantity Button ------------------------
   .QuantityBtn:focus {
     background-color: $color-transparent;
     box-shadow: none;
@@ -48,7 +48,7 @@ section {
       color: $color-primary;
     }
   }
-  //--------------------------- Remove Button------------------------
+  //--------------------------- Remove Button ------------------------
   .removeBtn:focus {
     background-color: $color-transparent;
     box-shadow: none;
@@ -89,20 +89,64 @@ section {
   }
 }
 
-//-------------------- Padding between image and Buttons ------------------
-:host ::ng-deep .p-card .p-card-content {
-  padding: 0.2rem 0 !important;
-}
-//--------------------------- Buttons Card Padding ------------------------
-:host ::ng-deep .p-card .p-card-body {
-  padding: 0.3rem !important;
+//--------------------------- Orders Section Styles ----------------------
+.recent-orders {
+  .order-card {
+    background-color: $color-white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .d-flex {
+      justify-content: space-between;
+      align-items: center;
+
+      h4 {
+        font-size: 1.2rem;
+        color: $color-black;
+      }
+
+      button {
+        font-size: 1.2rem;
+        cursor: pointer;
+      }
+    }
+
+    p {
+      font-size: 1rem;
+      color: $color-secondary;
+
+      strong {
+        font-weight: bold;
+      }
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin-top: 0.5rem;
+      li {
+        font-size: 0.9rem;
+        color: $color-secondary;
+      }
+    }
+  }
+
+  .text-center {
+    margin-bottom: 2rem;
+    font-size: 1.5rem;
+    color: $color-primary;
+  }
 }
 
-:host ::ng-deep .p-card .p-card-footer {
-  padding: 0.3rem 0 0 0;
-}
-
-//--------------------------- Empty Cart Responsive------------------------
+//--------------------------- Empty Cart Responsive ------------------------
 @media screen and (max-width: 992px) {
   .emptyCart {
     font-size: 2rem !important;

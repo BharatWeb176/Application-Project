@@ -14,6 +14,7 @@ $color-lightgreen: #c8e6c9;
 section {
   background-color: $color-main;
   color: var(--dark-grey-color);
+
   .heroo {
     background-image: url("../../../assets/images/paw.png"),
       url("../../../assets/images/paw.png");
@@ -22,8 +23,11 @@ section {
     background-position: top left, bottom right;
     figure {
       img {
-        width: 800px;
-        height: 500px;
+        width: 100%;
+        max-width: 800px; // maximum width on large screens
+        height: auto; // maintain aspect ratio
+        display: block;
+        margin: 0 auto;
       }
     }
   }
@@ -37,7 +41,7 @@ section {
     width: 100%;
     background-position: center;
     background-repeat: no-repeat;
-    background-size: 100% 100%;
+    background-size: cover;
     border-radius: 5px;
     &__title {
       color: $color-white;
@@ -45,7 +49,7 @@ section {
       font-size: 6rem;
     }
   }
-
+  //shop by pet category
   .type {
     margin-bottom: 150px !important;
     background-image: url("../../../assets/images/paw.png"),
@@ -53,26 +57,71 @@ section {
     background-repeat: no-repeat;
     background-size: 10% 25%;
     background-position: top right, bottom left;
+
     .typesButtons {
-      img {
-        width: 10rem;
-        height: 15rem;
-        border-radius: 10px;
-      }
+      // Adjust spacing if necessary
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+
       .CategoryRouter {
         cursor: pointer;
-        &__content {
-          // box-shadow: 5px 10px 18px #888888;
-          background-color: #68b1ff;
-          // background-color: #d3d3d3;
+
+        a {
+          text-decoration: none;
+          color: #000;
         }
+
+        &__content {
+          display: flex;
+          align-items: center;
+          border: 1px solid $color-primary; // optional border
+          border-radius: 25px;
+          overflow: hidden;
+          background-color: $color-primary;
+          // Set a fixed height so both cards have the same size
+          height: 15rem;
+        }
+
         &__content:hover {
           box-shadow: 5px 10px 18px #888888 !important;
           cursor: pointer;
         }
-        a {
-          text-decoration: none;
-          color: #000;
+
+        // Inside the card, split the layout between the image and text
+        .CategoryRouter__content {
+          display: flex;
+          width: 100%;
+
+          // Image container with fixed dimensions
+          .img-container {
+            width: 10rem; // fixed width for image section
+            height: 100%; // fill parent's height
+            flex-shrink: 0;
+            overflow: hidden;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover; // ensures image covers the container with cropping if needed
+              border-radius: 5px 0 0 5px;
+            }
+          }
+
+          // Text container
+          .text-container {
+            flex-grow: 1;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark-grey-color);
+            p {
+              margin: 0;
+              font-size: 1.5rem; // adjust as needed
+            }
+          }
         }
       }
     }
@@ -100,6 +149,9 @@ section {
         background-color: $color-primary;
         width: 100px;
         height: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
 
@@ -109,7 +161,6 @@ section {
         i {
           color: $color-primary;
         }
-
         background-color: $color-white;
       }
       p {
@@ -138,7 +189,9 @@ section {
       }
 
       .product-image {
-        width: 50%;
+        width: 100%;
+        max-width: 300px; // adjust max-width as needed
+        height: auto; // maintain aspect ratio
         box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
       }
       .card__actions__instock {
@@ -168,8 +221,7 @@ section {
   }
 }
 
-//--------------------------- Shop Now BUTTON START------------------------
-
+//--------------------------- Shop Now BUTTON ------------------------
 :host ::ng-deep .p-button {
   background: $color-secondary;
   border: 1px solid $color-secondary;
@@ -191,9 +243,7 @@ section {
   border-color: none !important;
 }
 
-//--------------------------- Shop Now BUTTON END------------------------
-
-//--------------------------- ADD TO WISHLIST START------------------------
+//--------------------------- ADD TO WISHLIST ------------------------
 :host ::ng-deep .p-button {
   border: none !important;
 }
@@ -243,15 +293,16 @@ section {
   button {
   background-color: var(--blue-color);
 }
-//--------------------------- ADD TO WISHLIST END------------------------
+
+//--------------------------- Responsive Adjustments ------------------------
 @media only screen and (max-width: 1200px) {
   section {
     .heroo {
-      display: block !important;
       figure {
         img {
-          width: 800px;
-          height: 500px;
+          max-width: 800px;
+          width: 100%;
+          height: auto;
         }
       }
     }
@@ -287,8 +338,9 @@ section {
       background-position: top left, bottom right;
       figure {
         img {
-          width: 400px;
-          height: 400px;
+          max-width: 400px;
+          width: 100%;
+          height: auto;
         }
       }
     }
@@ -309,7 +361,7 @@ section {
       width: 100%;
       background-position: center;
       background-repeat: no-repeat;
-      background-size: 100% 100%;
+      background-size: cover;
       border-radius: 5px;
       &__title {
         color: $color-white;
@@ -341,8 +393,9 @@ section {
     .heroo {
       figure {
         img {
-          width: 300px;
-          height: 300px;
+          max-width: 300px;
+          width: 100%;
+          height: auto;
         }
       }
     }
@@ -363,7 +416,7 @@ section {
       width: 100%;
       background-position: center;
       background-repeat: no-repeat;
-      background-size: 100% 100%;
+      background-size: cover;
       border-radius: 5px;
       &__title {
         color: $color-white;
