@@ -10,11 +10,11 @@
     </p>
     <hr />
     <figure class="d-flex justify-content-center mt-4">
-      <img class="img-fluid mb-3" [src]="article.image" alt="article-image" />
+      <!-- <img class="img-fluid mb-3" [src]="article.image" alt="article-image" /> -->
     </figure>
     <div *ngFor="let block of article.body">
       <figure class="d-flex justify-content-center mt-4" *ngIf="block.image">
-        <img class="img-fluid mb-3" [src]="block.image" alt="article-image" />
+        <!-- <img class="img-fluid mb-3" [src]="block.image" alt="article-image" /> -->
       </figure>
       <p *ngIf="block.data">
         {{ block.data }}
